@@ -23,7 +23,7 @@ public class RoomController {
 
   @MessageMapping("/{roomId}/join")
   public void joinGameSession(@DestinationVariable String roomId) {
-      GameSessionStompJoinRes res = GameSessionStompJoinRes.of(gameSessionService.findById(roomId));
+    GameSessionStompJoinRes res = GameSessionStompJoinRes.of(gameSessionService.findById(roomId));
     simpMessagingTemplate.convertAndSend("/sub/" + roomId, res);
   }
 
