@@ -389,19 +389,10 @@ export default {
       // 구독했다고 서버에 알리기, 나갔다 오면 다른 경로로
       if (store.getters["ingame/getPhase"]) {
         const localPhase = store.getters["ingame/getPhase"];
-        const localDate = store.getters["ingame/getDate"];
         if (localPhase === "READY") {
           state.stompClient.send(`/pub/${state.mySessionId}/join`, {});
         } else {
-          const message = {
-            date: localDate,
-            phase: localPhase,
-          };
-          state.stompClient.send(
-            `/pub/${state.mySessionId}/rejoin`,
-            {},
-            JSON.stringify(message)
-          );
+          state.stompClient.send(`/pub/${state.mySessionId}/rejoin`, {});
         }
       } else {
         state.stompClient.send(`/pub/${state.mySessionId}/join`, {});
@@ -585,7 +576,6 @@ export default {
             state.gameStatus = message.gameStatus;
             infoUpdater("alive", message);
             store.dispatch("ingame/setPhase", state.gameStatus.phase);
-            store.dispatch("ingame/setDate", state.gameStatus.date);
             break;
           }
           case "DAY_DISCUSSION": {
@@ -599,7 +589,6 @@ export default {
             state.gameStatus = message.gameStatus;
             infoUpdater("alive", message);
             store.dispatch("ingame/setPhase", state.gameStatus.phase);
-            store.dispatch("ingame/setDate", state.gameStatus.date);
             break;
           }
           case "DAY_ELIMINATION": {
@@ -616,7 +605,6 @@ export default {
             infoUpdater("voters", null);
             state.isConfirm = false;
             store.dispatch("ingame/setPhase", state.gameStatus.phase);
-            store.dispatch("ingame/setDate", state.gameStatus.date);
             break;
           }
           case "DAY_TO_NIGHT": {
@@ -653,7 +641,6 @@ export default {
             infoUpdater("voters", null);
             state.isConfirm = false;
             store.dispatch("ingame/setPhase", state.gameStatus.phase);
-            store.dispatch("ingame/setDate", state.gameStatus.date);
             break;
           }
           case "NIGHT_VOTE": {
@@ -692,7 +679,6 @@ export default {
             }
             state.gameStatus = message.gameStatus;
             store.dispatch("ingame/setPhase", state.gameStatus.phase);
-            store.dispatch("ingame/setDate", state.gameStatus.date);
             break;
           }
           case "NIGHT_TO_DAY": {
@@ -728,7 +714,6 @@ export default {
               state.subscribers[i].subscribeToVideo(true);
             }
             store.dispatch("ingame/setPhase", state.gameStatus.phase);
-            store.dispatch("ingame/setDate", state.gameStatus.date);
             break;
           }
           case "END": {
@@ -768,7 +753,6 @@ export default {
             state.vote = null;
             state.isConfirm = false;
             store.dispatch("ingame/setPhase", state.gameStatus.phase);
-            store.dispatch("ingame/setDate", state.gameStatus.date);
             break;
           }
         }
@@ -875,7 +859,7 @@ export default {
             state.gameStatus = message.gameStatus;
             infoUpdater("alive", message);
             store.dispatch("ingame/setPhase", state.gameStatus.phase);
-            store.dispatch("ingame/setDate", state.gameStatus.date);
+
             break;
           }
           case "DAY_DISCUSSION": {
@@ -890,7 +874,7 @@ export default {
             state.gameStatus = message.gameStatus;
             infoUpdater("alive", message);
             store.dispatch("ingame/setPhase", state.gameStatus.phase);
-            store.dispatch("ingame/setDate", state.gameStatus.date);
+
             break;
           }
           case "DAY_ELIMINATION": {
@@ -907,7 +891,7 @@ export default {
             infoUpdater("voters", null);
             state.isConfirm = false;
             store.dispatch("ingame/setPhase", state.gameStatus.phase);
-            store.dispatch("ingame/setDate", state.gameStatus.date);
+
             break;
           }
           case "DAY_TO_NIGHT": {
@@ -944,7 +928,7 @@ export default {
             infoUpdater("voters", null);
             state.isConfirm = false;
             store.dispatch("ingame/setPhase", state.gameStatus.phase);
-            store.dispatch("ingame/setDate", state.gameStatus.date);
+
             break;
           }
           case "NIGHT_VOTE": {
@@ -983,7 +967,7 @@ export default {
             }
             state.gameStatus = message.gameStatus;
             store.dispatch("ingame/setPhase", state.gameStatus.phase);
-            store.dispatch("ingame/setDate", state.gameStatus.date);
+
             break;
           }
           case "NIGHT_TO_DAY": {
@@ -1019,7 +1003,7 @@ export default {
               state.subscribers[i].subscribeToVideo(true);
             }
             store.dispatch("ingame/setPhase", state.gameStatus.phase);
-            store.dispatch("ingame/setDate", state.gameStatus.date);
+
             break;
           }
           case "END": {
@@ -1059,7 +1043,7 @@ export default {
             state.vote = null;
             state.isConfirm = false;
             store.dispatch("ingame/setPhase", state.gameStatus.phase);
-            store.dispatch("ingame/setDate", state.gameStatus.date);
+
             break;
           }
           case "READY": {
@@ -1082,7 +1066,6 @@ export default {
             state.vote = null;
             state.isConfirm = false;
             store.dispatch("ingame/setPhase", state.gameStatus.phase);
-            store.dispatch("ingame/setDate", state.gameStatus.date);
           }
         }
       } else {
