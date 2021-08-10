@@ -570,6 +570,14 @@ export default {
         infoUpdater("isHost", message);
       } else if (message.type === "LEAVE") {
         infoUpdater("isHost", message);
+      } else if (message.type === "REJOIN") {
+        for (let i=0; i<state.playersGameInfo.length;i++) {
+          if (state.playersGameInfo[i].playerId === message.rejoiningPlayerId) {
+            state.playersGameInfo[i].alive = message.alive
+            state.playersGameInfo[i].suspicious = message.suspicious
+            break
+          }
+        }
       } else if (message.type === "PHASE_CHANGED") {
         switch (message.gameStatus.phase) {
           case "START": {
@@ -854,6 +862,33 @@ export default {
         infoUpdater("color", message);
         infoUpdater("nickname", message);
         infoUpdater("isHost", message);
+        state.role = message.role;
+        state.mafias = message.mafias;
+        if (state.role === "OBSERVER" ) {
+          state.message =
+            "당신은 관전자입니다. <br/>게임에 개입할 수는 없지만, 일어나고 있는 일들에 대한 모든 정보를 받아볼 수 있습니다.";
+          state.publisher.publishAudio(false);
+          state.publisher.publishVideo(false);
+          for (let i = 0; i < state.subscribers.length; i++) {
+            state.subscribers[i].subscribeToAudio(true);
+            state.subscribers[i].subscribeToVideo(true);
+          }
+        }
+        if (state.mafias === null) {
+          infoUpdater("isMafia", null);
+        } else {
+          for (let i = 0; i < state.playersGameInfo.length; i++) {
+            if (state.mafia.includes(state.playersGameInfo[i].playerId)) {
+              state.playersGameInfo[i].isMafia = true;
+            } else {
+              state.playersGameInfo[i].isMafia = false;
+            }
+          }
+        }
+        state.jobClient = state.stompClient.subscribe(
+          `/sub/${state.mySessionId}/${state.role}`,
+          onJobMessageReceived
+        );
         switch (message.gameStatus.phase) {
           case "START": {
             state.gameStatus = message.gameStatus;
@@ -1068,12 +1103,6 @@ export default {
             store.dispatch("ingame/setPhase", state.gameStatus.phase);
           }
         }
-      } else {
-        state.gameStatus = message.gameStatus;
-        if (state.gameStatus.phase === "DAY_ELIMINATION") {
-          infoUpdater("suspicious", message);
-        }
-        infoUpdater("alive", message);
       }
     }
 
