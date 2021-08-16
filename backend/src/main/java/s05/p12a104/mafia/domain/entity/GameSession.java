@@ -122,12 +122,12 @@ public class GameSession {
       if (!player.isLeft() || leftPhaseCount == null || leftPhaseCount >= this.phaseCount) {
         return;
       }
-      
+
       log.info("changePhase player : " + playerId);
-      
-      // player.setLeftPhaseCount(null);
+
       eliminatePlayer(playerId);
-      victims.add(player.getNickname());
+      if (leftPhaseCount == this.phaseCount-1)
+        victims.add(player.getNickname());
     });
 
     return victims;
