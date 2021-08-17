@@ -10,7 +10,6 @@ import s05.p12a104.mafia.domain.entity.Player;
 import s05.p12a104.mafia.domain.enums.GameRole;
 import s05.p12a104.mafia.domain.enums.RoomType;
 
-@Slf4j
 public class RoleUtils {
 
   public static Map<GameRole, Integer> getRoleNum(GameSession gameSession) {

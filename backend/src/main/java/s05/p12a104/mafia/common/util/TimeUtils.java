@@ -6,7 +6,6 @@ import java.time.ZoneId;
 import java.util.Date;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class TimeUtils {
   public static LocalDateTime getFinTime(int time) {
     // 한국 시간으로 맞추기
