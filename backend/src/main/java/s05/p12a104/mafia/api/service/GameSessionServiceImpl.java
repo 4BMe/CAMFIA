@@ -403,6 +403,7 @@ public class GameSessionServiceImpl implements GameSessionService {
       gameSession.setAlivePlayer(gameSession.getPlayerMap().size());
 
       // 역할 부여
+      log.info("Room {} assigns roles", gameSession.getRoomId());
       gameSession.setMafias(RoleUtils.assignRole(roleNum, gameSession.getPlayerMap()));
 
       // alive Not Civilian 초기화

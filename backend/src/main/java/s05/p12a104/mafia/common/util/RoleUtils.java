@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 import s05.p12a104.mafia.domain.entity.GameSession;
 import s05.p12a104.mafia.domain.entity.Player;
 import s05.p12a104.mafia.domain.enums.GameRole;
 import s05.p12a104.mafia.domain.enums.RoomType;
 
+@Slf4j
 public class RoleUtils {
 
   public static Map<GameRole, Integer> getRoleNum(GameSession gameSession) {
@@ -34,6 +36,8 @@ public class RoleUtils {
     roleNum.put(GameRole.MAFIA, mafia);
     roleNum.put(GameRole.DOCTOR, doctor);
     roleNum.put(GameRole.POLICE, police);
+
+    log.info("Room {} gets number of roles ", gameSession.getRoomId());
 
     return roleNum;
 
