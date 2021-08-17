@@ -58,8 +58,9 @@ public class StartFinSubscriber {
         if (gameSessionService.isDone(gameSession, victims)) {
           return;
         }
-
-        log.info("Start Day " + gameSession.getDay());
+        
+        log.info("Room {} start Day {} {} ", gameSession.getRoomId(), gameSession.getDay(),
+            gameSession.getPhase());
 
         template.convertAndSend("/sub/" + roomId, GameStatusRes.of(gameSession));
 

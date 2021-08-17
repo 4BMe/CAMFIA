@@ -250,7 +250,7 @@ public class GameSessionServiceImpl implements GameSessionService {
    * @param player : 나간 player
    */
   private void removePlayer(GameSession gameSession, Player player) {
-    if (player.isLeft()) { 
+    if (player.isLeft()) {
       return;
     }
 
@@ -416,10 +416,16 @@ public class GameSessionServiceImpl implements GameSessionService {
     } finally {
       lock.unlock();
     }
+
+    log.info("Room {} start the game", gameSession.getRoomId());
   }
 
   @Override
   public boolean isDone(GameSession gameSession, List<String> victims) {
+    log.info("Room {} check if anyone wins", gameSession.getRoomId());
+    log.info("Room {}: next phase - {}, victims - {}", gameSession.getRoomId(),
+        gameSession.getPhase(), victims);
+
     GameResult gameResult = GameResult.of(gameSession, victims);
     if (gameResult.getWinner() == null) {
       return false;
@@ -432,7 +438,6 @@ public class GameSessionServiceImpl implements GameSessionService {
   @Override
   public void endGame(GameSession gameSession) {
     // 중간에 나간 사람, 다시 들어오지 않은 사람 playerMap에서 제거 -> leave 처리
-    // 그러면 hostId가 처리가 되겠지..?
     Map<String, Player> playerMap = gameSession.getPlayerMap();
     List<Player> removePlayers = new ArrayList<>();
     for (Player player : playerMap.values()) {
@@ -452,7 +457,9 @@ public class GameSessionServiceImpl implements GameSessionService {
       gameSession.setAliveMafia(0);
 
       update(gameSession);
+      log.info("Set in the first state: the room id - {}", gameSession.getRoomId());
     }
+
   }
 
   @Override
