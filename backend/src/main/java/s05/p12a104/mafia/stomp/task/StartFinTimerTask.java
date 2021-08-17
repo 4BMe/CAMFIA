@@ -18,7 +18,6 @@ public class StartFinTimerTask extends TimerTask {
 
   @Override
   public void run() {
-    log.info("Room {} publish StartFin", roomId);
     redisPublisher.publish(topicStartFin, roomId);
   }
 

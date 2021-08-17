@@ -37,8 +37,6 @@ public class RoleUtils {
     roleNum.put(GameRole.DOCTOR, doctor);
     roleNum.put(GameRole.POLICE, police);
 
-    log.info("Room {} gets number of roles ", gameSession.getRoomId());
-
     return roleNum;
 
   }
