@@ -669,6 +669,7 @@ export default {
                                 isHost: false,
                                 isTalking: false,
                                 role: null,
+                                confirm: false,
                             };
                             localSubscribers.push(tmpSubscriber);
                             localPlayersGameInfo.push(tmpPlayerGameInfo);
@@ -946,7 +947,7 @@ export default {
                             }
                         }
                         state.removeList = [];
-                        state.gameStatus = message.gameStatus
+                        state.gameStatus = message.gameStatus;
                         infoUpdater("isHost", message);
                         store.dispatch("ingame/setPhase", state.gameStatus.phase);
                         break;
@@ -1039,7 +1040,7 @@ export default {
                 if (Object.keys(message.playerMap).includes(playerId)) {
                     state.playerMe.confirm = message.playerMap[playerId].confirm;
                     if (state.playerMe.confirm === true) {
-                        state.isConfirm = true
+                        state.isConfirm = true;
                     }
                 }
                 for (let i = 0; i < state.playersGameInfo.length; i++) {
@@ -1065,7 +1066,7 @@ export default {
                     infoUpdater("isMafia", null);
                 } else {
                     for (let i = 0; i < state.playersGameInfo.length; i++) {
-                        if (state.mafia.includes(state.playersGameInfo[i].playerId)) {
+                        if (state.mafias.includes(state.playersGameInfo[i].playerId)) {
                             state.playersGameInfo[i].isMafia = true;
                         } else {
                             state.playersGameInfo[i].isMafia = false;
@@ -1077,7 +1078,6 @@ export default {
                     onJobMessageReceived
                 );
                 if (state.role === "OBSERVER") {
-                    state.message = ``;
                     state.stompClient.send(`/pub/${state.mySessionId}/${state.role}`);
                 }
                 switch (message.gameStatus.phase) {
@@ -1290,7 +1290,7 @@ export default {
                                 state.message = `게임이 종료되었습니다. <br> <span style="font-size:25px; color:${state.victimColor}">${victims}</span>가 사망하며 마피아를 모두 제거하였기 때문에 <span style="font-size: 25px; color:${state.civilColor}">시민측 진영</span>이 승리하였습니다.`;
                             }
                         }
-                        state.gameStatus = message.gamesTatus
+                        state.gameStatus = message.gameStatus;
                         break;
                     }
                 }
