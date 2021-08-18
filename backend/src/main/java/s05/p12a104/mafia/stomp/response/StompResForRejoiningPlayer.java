@@ -26,11 +26,12 @@ public class StompResForRejoiningPlayer {
     gameSession.getPlayerMap().forEach((playerId, player) ->
         playerMap.put(playerId, StompExistingPlayer.of(player))
     );
-
+    
     Player rejoiningPlayer = gameSession.getPlayerMap().get(reJoiningplayerId);
     GameStatus gameStatus = GameStatus.of(gameSession);
 
     return new StompResForRejoiningPlayer(gameSession.getHostId(), gameStatus, playerMap,
-        rejoiningPlayer.getRole(), gameSession.getMafias());
+        rejoiningPlayer.getRole(),
+        rejoiningPlayer.getRole() == GameRole.MAFIA ? gameSession.getMafias() : null);
   }
 }
